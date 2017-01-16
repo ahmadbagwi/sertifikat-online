@@ -23,32 +23,32 @@
 	$host = "localhost";
 	$user = "root";
 	$pass = "";
-	$db   = "sertifikat";
+	$db   = "dbsertifikat";
 	//buat koneksi dan ambil database		
 	$koneksi = mysql_connect($host, $user, $pass) or die("Koneksi error");
 	$db = mysql_select_db($db) or die("database tidak ditemukan");
 
 	//ambil POST dan sesuaikan dengan database
-	$ambildb = mysql_query("SELECT nama2 FROM wcf WHERE nama1 LIKE '%$getid%'");
+	$ambildb = mysql_query("SELECT nama FROM peserta WHERE no_registrasi LIKE '%$getid%' OR nama LIKE '%$getid%'");
 	
 	while ($row = mysql_fetch_assoc($ambildb)){
-		$hasil = $row['nama2'];
+		$hasil = $row['nama'];
 		
 	}
 
 ?>
 							<form action="certificate.php" method="post">
 								<strong>It's your name?</strong><br>
-								<input type="text" class="form-control" name="namadisable" placeholder="" disabled="yes" value="<?php
-								if (!empty($getid)) {
+								<input type="text" class="form-control" name="namadisable" disabled="yes" value="<?php
+								if (!empty($getid)) { //berfungsi verifikasi, menampilkan nama hasil input saja tapi tidak dikirim ke untuk dicetak (certificate.php) karena status input tersebut disable
 								 	echo "$hasil";
 								 	}
 								 	else {
 								 	echo "your name will shown automatic";	
 								 	} 
 								   ?>" ></input>
-								<input type="hidden" name="nama" placeholder="Your name will shown automatic" value="<?php
-								if (!empty($getid)) {
+								<input type="hidden" name="namacetak" value="<?php
+								if (!empty($getid)) { //berfungsi mengirim nama yang telah diinput dan sesuai untuk di cetak ke (certificate.php)
 								 	echo "$hasil";
 								 	}
 								 	else {
@@ -65,15 +65,5 @@
 	</div>
 
 </body>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-
-<script type="text/javascript">
-	$(document).ready(function()
-{ 
-       $(document).bind("contextmenu",function(e){
-              return false;
-       }); 
-})
-</script>
 
 </html>
